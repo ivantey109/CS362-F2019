@@ -714,7 +714,7 @@ void cardEffectbaron(struct gameState *state, int choice1, int currentPlayer, in
                         printf("Must gain an estate if there are any\n");
                     }
                     if (supplyCount(estate, state) > 0) {
-                        gainCard(estate, state, 0, currentPlayer);
+                        gainCard(estate, state, 1, currentPlayer);
 
                         state->supplyCount[estate]--;//Decrement estates
                         if (supplyCount(estate, state) == 0) {
@@ -741,7 +741,7 @@ void cardEffectbaron(struct gameState *state, int choice1, int currentPlayer, in
             }
         }
 
-       discardCard(handPos, currentPlayer, state, 0);
+
 }
 
 
@@ -764,7 +764,7 @@ void cardEffectminion(struct gameState *state, int choice1, int currentPlayer, i
 
 		if (choice1)
         {
-            state->coins = state->coins + 2;
+            state->coins = state->coins + 4;
         }
         else if (choice2)		//discard hand, redraw 4, other players with 5+ cards discard hand and draw 4
         {
@@ -788,9 +788,10 @@ void cardEffectminion(struct gameState *state, int choice1, int currentPlayer, i
                     if ( state->handCount[i] > 4 )
                     {
                         //discard hand
-                        for (j = 0; j < state->handCount[currentPlayer]; j++)
+                        while( state->handCount[i] > 0 )
                         {
-                            discardCard(handPos, i, state, 0);
+                            discardCard(handPos, i, state, 1);
+                            printf("%d", i);
                         }
 
                         //draw 4
@@ -849,7 +850,7 @@ int cardEffectambassador(struct gameState *state, int choice1, int currentPlayer
         //each other player gains a copy of revealed card
         for (i = 0; i < state->numPlayers; i++)
         {
-            if (i != currentPlayer)
+            if (i == currentPlayer)
             {
                 gainCard(state->hand[currentPlayer][choice1], state, 0, i);
             }
@@ -865,7 +866,7 @@ int cardEffectambassador(struct gameState *state, int choice1, int currentPlayer
             {
                 if (state->hand[currentPlayer][i] == state->hand[currentPlayer][choice1])
                 {
-                    discardCard(i, currentPlayer, state, 1);
+                    discardCard(i, currentPlayer, state, 0);
                     break;
                 }
             }
@@ -877,7 +878,7 @@ int cardEffectambassador(struct gameState *state, int choice1, int currentPlayer
  * 
  * 
  * 
- * this function is refectoring ambassador
+ * this function is refectoring tribute
  * 
  * 
  * ****************************************/
@@ -921,11 +922,7 @@ void cardEffecttribute(struct gameState *state, int choice1, int currentPlayer, 
             state->deckCount[nextPlayer]--;
         }
 
-        if (tributeRevealedCards[0] == tributeRevealedCards[1]) { //If we have a duplicate card, just drop one
-            state->playedCards[state->playedCardCount] = tributeRevealedCards[1];
-            state->playedCardCount++;
-            tributeRevealedCards[1] = -1;
-        }
+
 
         for (i = 0; i <= 2; i ++) {
             if (tributeRevealedCards[i] == copper || tributeRevealedCards[i] == silver || tributeRevealedCards[i] == gold) { //Treasure cards
@@ -940,6 +937,14 @@ void cardEffecttribute(struct gameState *state, int choice1, int currentPlayer, 
                 state->numActions = state->numActions + 2;
             }
         }
+
+
+        if (tributeRevealedCards[0] != tributeRevealedCards[1]) { //If we have a duplicate card, just drop one
+            state->playedCards[state->playedCardCount] = tributeRevealedCards[1];
+            state->playedCardCount++;
+            tributeRevealedCards[1] = -1;
+        }
+
         discardCard(handPos, currentPlayer, state, 0);
 }
 
@@ -948,7 +953,7 @@ void cardEffecttribute(struct gameState *state, int choice1, int currentPlayer, 
  * 
  * 
  * 
- * this function is refectoring ambassador
+ * this function is refectoring mine
  * 
  * 
  * ****************************************/
@@ -957,7 +962,7 @@ int cardEffectmine(struct gameState *state, int choice1, int currentPlayer, int 
         int j, i;
         j = state->hand[currentPlayer][choice1];  //store card we will trash
 
-        if (state->hand[currentPlayer][choice1] < copper || state->hand[currentPlayer][choice1] > gold)
+        if (state->hand[currentPlayer][choice1] > copper || state->hand[currentPlayer][choice1] < gold)
         {
             return -1;
         }
