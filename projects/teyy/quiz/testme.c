@@ -4,17 +4,17 @@
 #include<time.h>
 char inputChar()
 {
-   char randomchar; 
-   randomchar = (char)rand()%128; //generate random character with all the ascii character
-   return randomchar;
+   char randomChar; 
+   randomChar = (char)rand()%128; //generate random character with all the ascii character
+   return randomChar;
 }
 
 char *inputString()
 {
 
    int i;
-   char randomStr[6] = "\0"; //we always make the array to null
-   char inputArr[] = "[({axreset})]"; //we need a temporary string for generate random number
+   char randomStr[5] = "\0"; //we always make the array to null
+   char inputArr[13] = "[({axreset})]"; //we need a temporary string for generate random number
 
    for(i=0; i< 5; i++)
    {
