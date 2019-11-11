@@ -47,6 +47,7 @@ int main()
         if(count != 4) //if the get coin is not 4, then something wrong
         {
             break;
+            printf("Error get coin\n");
         }
     }
 
