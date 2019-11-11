@@ -1,0 +1,131 @@
+        -:    0:Source:testme.c
+        -:    0:Graph:testme.gcno
+        -:    0:Data:testme.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include<stdio.h>
+        -:    2:#include<string.h>
+        -:    3:#include<stdlib.h>
+        -:    4:#include<time.h>
+function inputChar called 258286 returned 100% blocks executed 100%
+   258286:    5:char inputChar()
+        -:    6:{
+        -:    7:   char randomchar; 
+   258286:    8:   randomchar = (char)rand()%128; //generate random character with all the ascii character
+call    0 returned 100%
+   258286:    9:   return randomchar;
+        -:   10:}
+        -:   11:
+function inputString called 258286 returned 100% blocks executed 100%
+   258286:   12:char *inputString()
+        -:   13:{
+        -:   14:
+        -:   15:   int i;
+   258286:   16:   char randomStr[6] = "\0"; //we always make the array to null
+   258286:   17:   char inputArr[] = "[({axreset})]"; //we need a temporary string for generate random number
+        -:   18:
+  1549716:   19:   for(i=0; i< 5; i++)
+branch  0 taken 83%
+branch  1 taken 17% (fallthrough)
+        -:   20:   {
+  1291430:   21:      randomStr[i] = inputArr[rand()%13]; //loop 5 times and random with the inputarr
+call    0 returned 100%
+        -:   22:   }
+        -:   23:
+   258286:   24:   return randomStr;
+        -:   25:}
+function testme called 1 returned 0% blocks executed 100%
+        1:   26:void testme()
+        -:   27:{
+        1:   28:   int tcCount = 0;
+        -:   29:   char *s;
+        -:   30:   char c;
+        1:   31:   int state = 0;
+        -:   32:   while (1)
+        -:   33:   {
+   258286:   34:       tcCount++;
+   258286:   35:       c = inputChar();
+call    0 returned 100%
+   258286:   36:       s = inputString();
+call    0 returned 100%
+   258286:   37:       printf("Iteration %d: c = %c, s = %s, state = %d\n", tcCount, c, s, state);
+call    0 returned 100%
+   258286:   38:       if (c == '[' && state == 0) state = 1;
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+branch  2 taken 1% (fallthrough)
+branch  3 taken 99%
+   258286:   39:       if (c == '(' && state == 1) state = 2;
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+branch  2 taken 1% (fallthrough)
+branch  3 taken 99%
+   258286:   40:       if (c == '{' && state == 2) state = 3;
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+branch  2 taken 1% (fallthrough)
+branch  3 taken 99%
+   258286:   41:       if (c == ' '&& state == 3) state = 4;
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+branch  2 taken 1% (fallthrough)
+branch  3 taken 99%
+   258286:   42:       if (c == 'a' && state == 4) state = 5;
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+branch  2 taken 1% (fallthrough)
+branch  3 taken 99%
+   258286:   43:       if (c == 'x' && state == 5) state = 6;
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+branch  2 taken 1% (fallthrough)
+branch  3 taken 99%
+   258286:   44:       if (c == '}' && state == 6) state = 7;
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+branch  2 taken 1% (fallthrough)
+branch  3 taken 99%
+   258286:   45:       if (c == ')' && state == 7) state = 8;
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+branch  2 taken 1% (fallthrough)
+branch  3 taken 99%
+   258286:   46:       if (c == ']' && state == 8) state = 9;
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+branch  2 taken 1% (fallthrough)
+branch  3 taken 99%
+   258286:   47:       if (s[0] == 'r' && s[1] == 'e' && s[2] == 's' && s[3] == 'e' && s[4] == 't' && s[5] == '\0' && state == 9)
+branch  0 taken 8% (fallthrough)
+branch  1 taken 92%
+branch  2 taken 15% (fallthrough)
+branch  3 taken 85%
+branch  4 taken 8% (fallthrough)
+branch  5 taken 92%
+branch  6 taken 12% (fallthrough)
+branch  7 taken 88%
+branch  8 taken 7% (fallthrough)
+branch  9 taken 93%
+branch 10 taken 100% (fallthrough)
+branch 11 taken 0%
+branch 12 taken 50% (fallthrough)
+branch 13 taken 50%
+        -:   48:       {
+        1:   49:           printf("error \n");
+call    0 returned 100%
+        1:   50:           exit(200);
+call    0 returned 0%
+        -:   51:       }
+   258285:   52:   }
+        -:   53:}
+        -:   54:
+function main called 1 returned 0% blocks executed 80%
+        1:   55:int main(int argc, char *argv[])
+        -:   56:{
+        1:   57:   srand(time(NULL));
+call    0 returned 100%
+call    1 returned 100%
+        1:   58:   testme();
+call    0 returned 0%
+    #####:   59:   return 0;
+        -:   60:}
