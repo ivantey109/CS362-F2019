@@ -36,7 +36,7 @@ int main()
 
     assert(currentCoin+2); // to check if the G.coins +2
     
-
+    assert(tributeRevealedCards[0] == tributeRevealedCards[1]);
    
     printf("Finish testing Tribute\n");
 
